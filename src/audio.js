@@ -49,6 +49,9 @@ class Audio {
       const deviceId = darr.find(d =>
         d.label.includes('H Series Stereo Track Usb Audio'),
       ).deviceId;
+      console.log(darr,  darr.find(d =>
+        d.label.includes('H Series Stereo Track Usb Audio'),
+      ));
       window.navigator.mediaDevices
         .getUserMedia({video: false, audio: {deviceId}})
         .then(stream => {
