@@ -6,7 +6,6 @@
 // iq color palletes
 
 module.exports = {
-
   _noise: {
     type: 'util',
     glsl: `
@@ -82,13 +81,13 @@ module.exports = {
         m = m * m;
         return 42.0 * dot( m*m, vec4( dot(p0,x0), dot(p1,x1),
                                       dot(p2,x2), dot(p3,x3) ) );
-    }`
+    }`,
   },
   noise: {
     type: 'src',
     inputs: [
-      { type: 'float', name: 'scale', default: 10 },
-      { type: 'float', name: 'offset', default : 0.1 }
+      {type: 'float', name: 'scale', default: 10},
+      {type: 'float', name: 'offset', default: 0.1},
     ],
     description:
       'Generate [Perlin noise](https://en.wikipedia.org/wiki/Perlin_noise).',
@@ -103,13 +102,14 @@ module.exports = {
   voronoi: {
     type: 'src',
     inputs: [
-      { type: 'float', name: 'scale', default: 5 },
-      { type: 'float', name: 'speed', default : 0.3 },
-      { type: 'float', name: 'blending', default : 0.3 }
+      {type: 'float', name: 'scale', default: 5},
+      {type: 'float', name: 'speed', default: 0.3},
+      {type: 'float', name: 'blending', default: 0.3},
     ],
     description:
       'Generate [voronoi shapes](https://en.wikipedia.org/wiki/Voronoi_diagram).',
-    notes: 'from https://thebookofshaders.com/edit.php#12/vorono-01.frag, https://www.shadertoy.com/view/ldB3zc',
+    notes:
+      'from https://thebookofshaders.com/edit.php#12/vorono-01.frag, https://www.shadertoy.com/view/ldB3zc',
     glsl: `vec4 voronoi(vec2 st, float scale, float speed, float blending) {
       vec3 color = vec3(.0);
 
@@ -154,9 +154,9 @@ module.exports = {
   osc: {
     type: 'src',
     inputs: [
-      { name: 'frequency', type: 'float', default: 60.0 },
-      { name: 'sync', type: 'float', default: 0.1 },
-      { name: 'offset', type: 'float', default: 0.0 }
+      {name: 'frequency', type: 'float', default: 60.0},
+      {name: 'sync', type: 'float', default: 0.1},
+      {name: 'offset', type: 'float', default: 0.0},
     ],
     glsl: `vec4 osc(vec2 _st, float freq, float sync, float offset){
             vec2 st = _st;
@@ -181,9 +181,9 @@ module.exports = {
   shape: {
     type: 'src',
     inputs: [
-      { name: 'sides', type: 'float', default: 3.0 },
-      { name: 'radius', type: 'float', default: 0.3 },
-      { name: 'smoothing', type: 'float', default: 0.01 }
+      {name: 'sides', type: 'float', default: 3.0},
+      {name: 'radius', type: 'float', default: 0.3},
+      {name: 'smoothing', type: 'float', default: 0.01},
     ],
     glsl: `vec4 shape(vec2 _st, float sides, float radius, float smoothing){
       vec2 st = _st * 2. - 1.;
@@ -209,9 +209,7 @@ module.exports = {
   },
   gradient: {
     type: 'src',
-    inputs: [
-      { name: 'speed', type: 'float', default: 0.0 }
-    ],
+    inputs: [{name: 'speed', type: 'float', default: 0.0}],
     glsl: `vec4 gradient(vec2 _st, float speed) {
       return vec4(_st, sin(time*speed), 1.0);
     }`,
@@ -221,11 +219,8 @@ module.exports = {
   },
   src: {
     type: 'src',
-    inputs: [
-      { name: 'tex', type: 'texture' }
-    ],
-    description:
-      'See `hydra-examples` repository',
+    inputs: [{name: 'tex', type: 'texture'}],
+    description: 'See `hydra-examples` repository',
     glsl: `vec4 src(vec2 _st, sampler2D _tex){
       //  vec2 uv = gl_FragCoord.xy/vec2(1280., 720.);
       return texture2D(_tex, fract(_st));
@@ -234,10 +229,10 @@ module.exports = {
   solid: {
     type: 'src',
     inputs: [
-      { name: 'r', type: 'float', default: 0.0 },
-      { name: 'g', type: 'float', default: 0.0 },
-      { name: 'b', type: 'float', default: 0.0 },
-      { name: 'a', type: 'float', default: 1.0 }
+      {name: 'r', type: 'float', default: 0.0},
+      {name: 'g', type: 'float', default: 0.0},
+      {name: 'b', type: 'float', default: 0.0},
+      {name: 'a', type: 'float', default: 1.0},
     ],
     notes: '',
     glsl: `vec4 solid(vec2 uv, float _r, float _g, float _b, float _a){
@@ -250,11 +245,10 @@ module.exports = {
   rotate: {
     type: 'coord',
     inputs: [
-      { name: 'angle', type: 'float', default: 10.0 },
-      { name: 'speed', type: 'float', default: 0.0 }
+      {name: 'angle', type: 'float', default: 10.0},
+      {name: 'speed', type: 'float', default: 0.0},
     ],
-    description:
-      'Rotate texture.',
+    description: 'Rotate texture.',
     glsl: `vec2 rotate(vec2 st, float _angle, float speed){
               vec2 xy = st - vec2(0.5);
               float angle = _angle + speed *time;
@@ -272,14 +266,13 @@ module.exports = {
   scale: {
     type: 'coord',
     inputs: [
-      { name: 'amount', type: 'float', default: 1.5 },
-      { name: 'xMult', type: 'float', default: 1.0 },
-      { name: 'yMult', type: 'float', default: 1.0 },
-      { name: 'offsetX', type: 'float', default: 0.5 },
-      { name: 'offsetY', type: 'float', default: 0.5 }
+      {name: 'amount', type: 'float', default: 1.5},
+      {name: 'xMult', type: 'float', default: 1.0},
+      {name: 'yMult', type: 'float', default: 1.0},
+      {name: 'offsetX', type: 'float', default: 0.5},
+      {name: 'offsetY', type: 'float', default: 0.5},
     ],
-    description:
-      'Scale texture.',
+    description: 'Scale texture.',
     glsl: `vec2 scale(vec2 st, float amount, float xMult, float yMult, float offsetX, float offsetY){
       vec2 xy = st - vec2(offsetX, offsetY);
       xy*=(1.0/vec2(amount*xMult, amount*yMult));
@@ -301,8 +294,8 @@ module.exports = {
   pixelate: {
     type: 'coord',
     inputs: [
-      { name: 'pixelX', type: 'float', default: 20 },
-      { name: 'pixelY', type: 'float', default: 20 }
+      {name: 'pixelX', type: 'float', default: 20},
+      {name: 'pixelY', type: 'float', default: 20},
     ],
     description:
       'Pixelate texture with `pixelX` segments and `pixelY` segments.',
@@ -325,8 +318,8 @@ module.exports = {
   posterize: {
     type: 'color',
     inputs: [
-      { name: 'bins', type: 'float', default: 3.0 },
-      { name: 'gamma', type: 'float', default: 0.6 }
+      {name: 'bins', type: 'float', default: 3.0},
+      {name: 'gamma', type: 'float', default: 0.6},
     ],
     glsl: `vec4 posterize(vec4 c, float bins, float gamma){
       vec4 c2 = pow(c, vec4(gamma));
@@ -346,10 +339,10 @@ module.exports = {
   shift: {
     type: 'color',
     inputs: [
-      { name: 'r', type: 'float', default: 0.5 },
-      { name: 'g', type: 'float', default: 0.0 },
-      { name: 'b', type: 'float', default: 0.0 },
-      { name: 'a', type: 'float', default: 0.0 }
+      {name: 'r', type: 'float', default: 0.5},
+      {name: 'g', type: 'float', default: 0.0},
+      {name: 'b', type: 'float', default: 0.0},
+      {name: 'a', type: 'float', default: 0.0},
     ],
     glsl: `vec4 shift(vec4 c, float r, float g, float b, float a){
       vec4 c2 = vec4(c);
@@ -363,10 +356,10 @@ module.exports = {
   repeat: {
     type: 'coord',
     inputs: [
-      { name: 'repeatX', type: 'float', default: 3.0 },
-      { name: 'repeatY', type: 'float', default: 3.0 },
-      { name: 'offsetX', type: 'float', default: 0.0 },
-      { name: 'offsetY', type: 'float', default: 0.0 }
+      {name: 'repeatX', type: 'float', default: 3.0},
+      {name: 'repeatY', type: 'float', default: 3.0},
+      {name: 'offsetX', type: 'float', default: 0.0},
+      {name: 'offsetY', type: 'float', default: 0.0},
     ],
     glsl: `vec2 repeat(vec2 _st, float repeatX, float repeatY, float offsetX, float offsetY){
         vec2 st = _st * vec2(repeatX, repeatY);
@@ -388,11 +381,11 @@ module.exports = {
   modulateRepeat: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'repeatX', type: 'float', default: 3.0 },
-      { name: 'repeatY', type: 'float', default: 3.0 },
-      { name: 'offsetX', type: 'float', default: 0.5 },
-      { name: 'offsetY', type: 'float', default: 0.5 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'repeatX', type: 'float', default: 3.0},
+      {name: 'repeatY', type: 'float', default: 3.0},
+      {name: 'offsetX', type: 'float', default: 0.5},
+      {name: 'offsetY', type: 'float', default: 0.5},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -413,8 +406,8 @@ module.exports = {
   repeatX: {
     type: 'coord',
     inputs: [
-      { name: 'reps', type: 'float', default: 3.0 },
-      { name: 'offset', type: 'float', default: 0.0 }
+      {name: 'reps', type: 'float', default: 3.0},
+      {name: 'offset', type: 'float', default: 0.0},
     ],
     glsl: `vec2 repeatX(vec2 _st, float reps, float offset){
       vec2 st = _st * vec2(reps, 1.0);
@@ -435,9 +428,9 @@ module.exports = {
   modulateRepeatX: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'reps', type: 'float', default: 3.0 },
-      { name: 'offset', type: 'float', default: 0.5 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'reps', type: 'float', default: 3.0},
+      {name: 'offset', type: 'float', default: 0.5},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -460,8 +453,8 @@ module.exports = {
   repeatY: {
     type: 'coord',
     inputs: [
-      { name: 'reps', type: 'float', default: 3.0 },
-      { name: 'offset', type: 'float', default: 0.0 }
+      {name: 'reps', type: 'float', default: 3.0},
+      {name: 'offset', type: 'float', default: 0.0},
     ],
     glsl: `vec2 repeatY(vec2 _st, float reps, float offset){
       vec2 st = _st * vec2(1.0, reps);
@@ -480,9 +473,9 @@ module.exports = {
   modulateRepeatY: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'reps', type: 'float', default: 3.0 },
-      { name: 'offset', type: 'float', default: 0.5 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'reps', type: 'float', default: 3.0},
+      {name: 'offset', type: 'float', default: 0.5},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -503,11 +496,8 @@ module.exports = {
   },
   kaleid: {
     type: 'coord',
-    inputs: [
-      { name: 'nSides', type: 'float', default: 4.0 }
-    ],
-    description:
-      'Kaleidoscope effect with `nSides` repetition.',
+    inputs: [{name: 'nSides', type: 'float', default: 4.0}],
+    description: 'Kaleidoscope effect with `nSides` repetition.',
     glsl: `vec2 kaleid(vec2 st, float nSides){
       st -= 0.5;
       float r = length(st);
@@ -522,8 +512,8 @@ module.exports = {
   modulateKaleid: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'nSides', type: 'float', default: 4.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'nSides', type: 'float', default: 4.0},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -550,8 +540,8 @@ module.exports = {
   scrollX: {
     type: 'coord',
     inputs: [
-      { name: 'scrollX', type: 'float', default: 0.5 },
-      { name: 'speed', type: 'float', default: 0.0 }
+      {name: 'scrollX', type: 'float', default: 0.5},
+      {name: 'speed', type: 'float', default: 0.0},
     ],
     glsl: `vec2 scrollX(vec2 st, float amount, float speed){
       st.x += amount + time*speed;
@@ -578,9 +568,9 @@ module.exports = {
   modulateScrollX: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'scrollX', type: 'float', default: 0.5 },
-      { name: 'speed', type: 'float', default: 0.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'scrollX', type: 'float', default: 0.5},
+      {name: 'speed', type: 'float', default: 0.0},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -605,8 +595,8 @@ module.exports = {
   scrollY: {
     type: 'coord',
     inputs: [
-      { name: 'scrollY', type: 'float', default: 0.5 },
-      { name: 'speed', type: 'float', default: 0.0 }
+      {name: 'scrollY', type: 'float', default: 0.5},
+      {name: 'speed', type: 'float', default: 0.0},
     ],
     glsl: `vec2 scrollY(vec2 st, float amount, float speed){
       st.y += amount + time*speed;
@@ -633,9 +623,9 @@ module.exports = {
   modulateScrollY: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'scrollY', type: 'float', default: 0.5 },
-      { name: 'speed', type: 'float', default: 0.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'scrollY', type: 'float', default: 0.5},
+      {name: 'speed', type: 'float', default: 0.0},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -660,8 +650,8 @@ module.exports = {
   add: {
     type: 'combine',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'amount', type: 'float', default: 0.5 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'amount', type: 'float', default: 0.5},
     ],
     description: `
       Add textures.
@@ -678,12 +668,8 @@ module.exports = {
   },
   layer: {
     type: 'combine',
-    inputs: [
-      { name: 'texture', type: 'vec4' }
-
-    ],
-    description:
-      `Overlay texture based on alpha value.
+    inputs: [{name: 'texture', type: 'vec4'}],
+    description: `Overlay texture based on alpha value.
 
       The \`texture\` parameter can be any kind of [source](#sources), for
       example a [\`color\`](#color), [\`src\`](#src), or [\`shape\`](#shape).`,
@@ -695,8 +681,8 @@ module.exports = {
   blend: {
     type: 'combine',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'amount', type: 'float', default: 0.5 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'amount', type: 'float', default: 0.5},
     ],
     description: `
       Blend textures.
@@ -714,8 +700,8 @@ module.exports = {
   mult: {
     type: 'combine',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'amount', type: 'float', default: 1.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'amount', type: 'float', default: 1.0},
     ],
     description: `
       Multiply images and blend with the texture by \`amount\`.
@@ -730,9 +716,7 @@ module.exports = {
 
   diff: {
     type: 'combine',
-    inputs: [
-      { name: 'texture', type: 'vec4' }
-    ],
+    inputs: [{name: 'texture', type: 'vec4'}],
     description: `
       Return difference of textures.
 
@@ -755,8 +739,8 @@ module.exports = {
   modulate: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'amount', type: 'float', default: 0.1 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'amount', type: 'float', default: 0.1},
     ],
     description: `
       Modulate texture.
@@ -784,9 +768,9 @@ module.exports = {
   modulateScale: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'multiple', type: 'float', default: 1.0 },
-      { name: 'offset', type: 'float', default: 1.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'multiple', type: 'float', default: 1.0},
+      {name: 'offset', type: 'float', default: 1.0},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -808,9 +792,9 @@ module.exports = {
   modulatePixelate: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'multiple', type: 'float', default: 10.0 },
-      { name: 'offset', type: 'float', default: 3.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'multiple', type: 'float', default: 10.0},
+      {name: 'offset', type: 'float', default: 3.0},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -830,9 +814,9 @@ module.exports = {
   modulateRotate: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'multiple', type: 'float', default: 1.0 },
-      { name: 'offset', type: 'float', default: 0.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'multiple', type: 'float', default: 1.0},
+      {name: 'offset', type: 'float', default: 0.0},
     ],
     description: `
       The \`texture\` parameter can be any kind of [source](#sources), for
@@ -856,8 +840,8 @@ module.exports = {
   modulateHue: {
     type: 'combineCoord',
     inputs: [
-      { name: 'texture', type: 'vec4' },
-      { name: 'amount', type: 'float', default: 1.0 }
+      {name: 'texture', type: 'vec4'},
+      {name: 'amount', type: 'float', default: 1.0},
     ],
     description: `
       Changes coordinates based on hue of second input. Based on: https://www.shadertoy.com/view/XtcSWM
@@ -871,11 +855,8 @@ module.exports = {
   },
   invert: {
     type: 'color',
-    inputs: [
-      { name: 'amount', type: 'float', default: 1.0 }
-    ],
-    description:
-      'Invert color.',
+    inputs: [{name: 'amount', type: 'float', default: 1.0}],
+    description: 'Invert color.',
     glsl: `vec4 invert(vec4 c0, float amount){
       return vec4((1.0-c0.rgb)*amount + c0.rgb*(1.0-amount), c0.a);
     }`,
@@ -883,11 +864,8 @@ module.exports = {
   },
   contrast: {
     type: 'color',
-    inputs: [
-      { name: 'amount', type: 'float', default: 1.6 }
-    ],
-    description:
-      'Larger amount value makes higher contrast.',
+    inputs: [{name: 'amount', type: 'float', default: 1.6}],
+    description: 'Larger amount value makes higher contrast.',
     glsl: `vec4 contrast(vec4 c0, float amount) {
       vec4 c = (c0-vec4(0.5))*vec4(amount) + vec4(0.5);
       return vec4(c.rgb, c0.a);
@@ -898,9 +876,7 @@ module.exports = {
   },
   brightness: {
     type: 'color',
-    inputs: [
-      { name: 'amount', type: 'float', default: 0.4 }
-    ],
+    inputs: [{name: 'amount', type: 'float', default: 0.4}],
     glsl: `vec4 brightness(vec4 c0, float amount){
       return vec4(c0.rgb + vec3(amount), c0.a);
     }`,
@@ -918,9 +894,7 @@ module.exports = {
   },
   mask: {
     type: 'combine',
-    inputs: [
-      { name: 'texture', type: 'vec4' }
-    ],
+    inputs: [{name: 'texture', type: 'vec4'}],
     glsl: `vec4 mask(vec4 c0, vec4 c1){
       float a = luminance(c1.rgb);
       return vec4(c0.rgb*a, a);
@@ -940,8 +914,8 @@ module.exports = {
   luma: {
     type: 'color',
     inputs: [
-      { name: 'threshold', type: 'float', default: 0.5 },
-      { name: 'tolerance', type: 'float', default: 0.1 }
+      {name: 'threshold', type: 'float', default: 0.5},
+      {name: 'tolerance', type: 'float', default: 0.1},
     ],
     glsl: `vec4 luma(vec4 c0, float threshold, float tolerance){
       float a = smoothstep(threshold-tolerance, threshold+tolerance, luminance(c0.rgb));
@@ -956,8 +930,8 @@ module.exports = {
   thresh: {
     type: 'color',
     inputs: [
-      { name: 'threshold', type: 'float', default: 0.5 },
-      { name: 'tolerance', type: 'float', default: 0.04 }
+      {name: 'threshold', type: 'float', default: 0.5},
+      {name: 'tolerance', type: 'float', default: 0.04},
     ],
     glsl: `vec4 thresh(vec4 c0, float threshold, float tolerance){
       return vec4(vec3(smoothstep(threshold-tolerance, threshold+tolerance, luminance(c0.rgb))), c0.a);
@@ -973,10 +947,10 @@ module.exports = {
   color: {
     type: 'color',
     inputs: [
-      { name: 'r', type: 'float', default: 1.0 },
-      { name: 'g', type: 'float', default: 1.0 },
-      { name: 'b', type: 'float', default: 1.0 },
-      { name: 'a', type: 'float', default: 1.0 }
+      {name: 'r', type: 'float', default: 1.0},
+      {name: 'g', type: 'float', default: 1.0},
+      {name: 'b', type: 'float', default: 1.0},
+      {name: 'a', type: 'float', default: 1.0},
     ],
     notes: 'https://www.youtube.com/watch?v=FpOEtm9aX0M',
     glsl: `vec4 color(vec4 c0, float _r, float _g, float _b, float _a){
@@ -1010,9 +984,7 @@ module.exports = {
   },
   saturate: {
     type: 'color',
-    inputs: [
-      { name: 'amount', type: 'float', default: 2.0 }
-    ],
+    inputs: [{name: 'amount', type: 'float', default: 2.0}],
     glsl: `vec4 saturate(vec4 c0, float amount){
       const vec3 W = vec3(0.2125, 0.7154, 0.0721);
       vec3 intensity = vec3(dot(c0.rgb, W));
@@ -1022,9 +994,7 @@ module.exports = {
   },
   hue: {
     type: 'color',
-    inputs: [
-      { name: 'hue', type: 'float', default: 0.4 }
-    ],
+    inputs: [{name: 'hue', type: 'float', default: 0.4}],
     glsl: `vec4 hue(vec4 c0, float hue){
       vec3 c = _rgbToHsv(c0.rgb);
       c.r += hue;
@@ -1034,11 +1004,8 @@ module.exports = {
   },
   colorama: {
     type: 'color',
-    inputs: [
-      { name: 'amount', type: 'float', default: 0.005 }
-    ],
-    description:
-      'Shift HSV values.',
+    inputs: [{name: 'amount', type: 'float', default: 0.005}],
+    description: 'Shift HSV values.',
     glsl: `vec4 colorama(vec4 c0, float amount){
       vec3 c = _rgbToHsv(c0.rgb);
       c += vec3(amount);
@@ -1055,5 +1022,5 @@ module.exports = {
         .color([1,0,0,1,0],[0,1,0,1,0],[0,0,1,1,0])
         .colorama([0.005,0.33,0.66,1.0].fast(0.125))
         .out(o0)`,
-  }
-}
+  },
+};
